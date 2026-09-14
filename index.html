@@ -2,32 +2,335 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tier Athletics</title>
-<style>
-  :root { color-scheme: dark; }
-  body { margin: 0; background: #0d0d0f; color: #e9e4e1; font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-  main { max-width: 640px; margin: 0 auto; padding: 96px 24px; text-align: center; }
-  h1 { font-size: 2.6rem; letter-spacing: 0.04em; margin: 0 0 12px; }
-  h1 span { color: #FF4B2B; }
-  p { color: #b9b2ae; line-height: 1.6; }
-  a { color: #FF4B2B; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  footer { margin-top: 72px; font-size: 0.85rem; color: #7c7672; }
-  footer a { color: #b9b2ae; margin: 0 8px; }
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tier Athletics — Where do you rank?</title>
+<meta name="description" content="Nine tiers with published bench, squat and deadlift thresholds. Log your lifts, see exactly what's left to the next tier, and train alongside your friends. Free on iPhone.">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://tierathletics.app/">
+<meta property="og:title" content="Tier Athletics — Where do you rank?">
+<meta property="og:description" content="Nine tiers. Real bench, squat and deadlift thresholds. A rank any lifter can read.">
+<meta property="og:url" content="https://tierathletics.app/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://tierathletics.app/assets/og.png">
+<meta name="apple-itunes-app" content="app-id=6743146228">
+<link rel="icon" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=Jost:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"MobileApplication","name":"Tier Athletics","operatingSystem":"iOS","applicationCategory":"HealthApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://tierathletics.app/","downloadUrl":"https://apps.apple.com/app/apple-store/id6743146228?pt=127595726&ct=website&mt=8","publisher":{"@type":"Organization","name":"Tier Innovations, Inc."}}
+</script>
 </head>
-<body>
-<main>
-  <h1><span>Tier</span> Athletics</h1>
-  <p>Track your lifts, climb the tiers, and train alongside your friends.<br>
-  Tier is a fitness-tracking app for iPhone.</p>
-  <p>Contact: <a href="mailto:tierinnovationsinc@gmail.com">tierinnovationsinc@gmail.com</a></p>
-  <footer>
+<body data-rung="hero">
+<!--
+THESIS: The scroll is the climb. Refuses the app-landing default (phone hero + feature grid) by making the ladder itself the page: you arrive unranked and every screen of scroll lights the next tier.
+OWN-WORLD: The app's world. Pure black ground, tier hue as light (a fixed aurora that re-colours per rung), hairline rules, thin Jost numerals stroked at poster scale, tracked condensed caps, one orange accent for action.
+STORY: A lifter learns what a tier is, finds theirs with the calculator, climbs I→IX seeing real thresholds and the app doing its job, then downloads it.
+FIRST VIEWPORT: Left, "Where do you rank?" at ~100px light, one-line offer, App Store button. Right, the live three-lift calculator with a dashed unranked ring that lights in the tier's colour.
+FORM: Scroll-as-climb, candidate 3 of 5; seed afab8668. Raises: ladder rail (drum-machine chase light), cropped outline numerals (Metro tiles).
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+-->
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="wordmark" href="/" aria-label="Tier Athletics home">
+    <img src="assets/apple-touch-icon.png" alt="" width="32" height="32">
+    <span>TIER</span>
+  </a>
+  <nav aria-label="Primary">
+    <a class="navlink" href="#rung-1">The ladder</a>
+    <a class="navlink keep" href="support.html">Support</a>
+    <a class="store small" href="https://apps.apple.com/app/apple-store/id6743146228?pt=127595726&amp;ct=website&amp;mt=8">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.37 12.73c-.02-2.3 1.88-3.4 1.97-3.46-1.07-1.57-2.74-1.78-3.33-1.8-1.42-.14-2.77.84-3.49.84-.72 0-1.83-.82-3.01-.8-1.55.02-2.98.9-3.78 2.29-1.61 2.8-.41 6.94 1.16 9.21.77 1.11 1.68 2.36 2.88 2.31 1.16-.05 1.59-.75 2.99-.75 1.39 0 1.79.75 3.01.72 1.24-.02 2.03-1.13 2.79-2.25.88-1.29 1.24-2.54 1.26-2.6-.03-.01-2.42-.93-2.45-3.71ZM14.1 5.95c.64-.77 1.07-1.85.95-2.92-.92.04-2.03.61-2.69 1.38-.59.68-1.1 1.77-.97 2.82 1.03.08 2.07-.52 2.71-1.28Z"/></svg>
+      Get the app
+    </a>
+  </nav>
+</header>
+
+<ol class="rail" aria-label="Where you are on the ladder">
+  <li><a href="#top" data-target="hero" style="--c:#b0b0b0">—<i></i></a></li>
+  <li><a href="#rung-1" data-target="1" style="--c:#C6CDD6">I<i></i></a></li>
+  <li><a href="#rung-2" data-target="2" style="--c:#4A90E2">II<i></i></a></li>
+  <li><a href="#rung-3" data-target="3" style="--c:#0FA958">III<i></i></a></li>
+  <li><a href="#rung-4" data-target="4" style="--c:#F056BF">IV<i></i></a></li>
+  <li><a href="#rung-5" data-target="5" style="--c:#D45D28">V<i></i></a></li>
+  <li><a href="#rung-6" data-target="6" style="--c:#E0553C">VI<i></i></a></li>
+  <li><a href="#rung-7" data-target="7" style="--c:#A05CD0">VII<i></i></a></li>
+  <li><a href="#rung-8" data-target="8" style="--c:#FFC107">VIII<i></i></a></li>
+  <li><a href="#rung-9" data-target="9" style="--c:#FFFFFF">IX<i></i></a></li>
+</ol>
+
+<a class="store small float" id="float-cta" href="https://apps.apple.com/app/apple-store/id6743146228?pt=127595726&amp;ct=website&amp;mt=8" hidden>Get the app</a>
+<main id="main">
+  <section class="hero" id="top" data-rung-section="hero" aria-labelledby="hero-title">
+    <div>
+      <h1 id="hero-title">Where do you rank?</h1>
+      <p class="lede">Nine tiers, each with a <strong>published bench, squat and deadlift</strong>. Clear all three and the rank is yours. Any lifter can read it.</p>
+      <div class="cta">
+        <a class="store accent" href="https://apps.apple.com/app/apple-store/id6743146228?pt=127595726&amp;ct=website&amp;mt=8">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.37 12.73c-.02-2.3 1.88-3.4 1.97-3.46-1.07-1.57-2.74-1.78-3.33-1.8-1.42-.14-2.77.84-3.49.84-.72 0-1.83-.82-3.01-.8-1.55.02-2.98.9-3.78 2.29-1.61 2.8-.41 6.94 1.16 9.21.77 1.11 1.68 2.36 2.88 2.31 1.16-.05 1.59-.75 2.99-.75 1.39 0 1.79.75 3.01.72 1.24-.02 2.03-1.13 2.79-2.25.88-1.29 1.24-2.54 1.26-2.6-.03-.01-2.42-.93-2.45-3.71ZM14.1 5.95c.64-.77 1.07-1.85.95-2.92-.92.04-2.03.61-2.69 1.38-.59.68-1.1 1.77-.97 2.82 1.03.08 2.07-.52 2.71-1.28Z"/></svg>
+          Get Tier on iPhone
+        </a>
+        <small>Free to start</small>
+      </div>
+    </div>
+
+    <form class="calc" id="calc" aria-labelledby="calc-title" autocomplete="off">
+      <div class="calc-head">
+        <span class="label" id="calc-title">Your best lifts</span>
+        <div class="seg" role="group" aria-label="Ladder">
+          <button type="button" data-ladder="m" aria-pressed="true">Men</button>
+          <button type="button" data-ladder="w" aria-pressed="false">Women</button>
+        </div>
+      </div>
+      <div class="lifts">
+        <div class="lift">
+          <label class="label" for="bench">Bench</label>
+          <div class="field"><input id="bench" name="bench" type="number" inputmode="numeric" min="0" max="1500" step="5" placeholder="0"><span class="unit">lb</span></div>
+        </div>
+        <div class="lift">
+          <label class="label" for="squat">Squat</label>
+          <div class="field"><input id="squat" name="squat" type="number" inputmode="numeric" min="0" max="1500" step="5" placeholder="0"><span class="unit">lb</span></div>
+        </div>
+        <div class="lift">
+          <label class="label" for="deadlift">Deadlift</label>
+          <div class="field"><input id="deadlift" name="deadlift" type="number" inputmode="numeric" min="0" max="1500" step="5" placeholder="0"><span class="unit">lb</span></div>
+        </div>
+      </div>
+      <div class="result" aria-live="polite">
+        <div class="ring" id="ring" aria-hidden="true">—</div>
+        <div>
+          <h2 id="result-title">Unranked</h2>
+          <p id="result-line">Enter your best bench, squat and deadlift.</p>
+          <p class="next" id="result-next"></p>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <div class="climb-intro">
+    <h2>Lifting never had belts. Now it has tiers.</h2>
+    <p>A blue belt means the same thing in every gym on earth. "I bench 225" doesn't. Tier gives strength nine named rungs with fixed public numbers, so a stranger reads your rank the way they'd read a belt. Your tier only ever goes up.</p>
+  </div>
+
+  <section class="rung" id="rung-1" data-rung-section="1" style="--c:#C6CDD6;--ct:#C6CDD6" aria-labelledby="t1">
+    <div class="numeral" aria-hidden="true">I</div>
+    <div class="copy">
+      <h3 id="t1">I · Courage</h3>
+      <p class="meaning">You showed up and unracked it.</p>
+      <table class="thresholds">
+                <thead><tr><th scope="col"></th><th scope="col">Bench</th><th scope="col">Squat</th><th scope="col">Deadlift</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Men</th><td>135<span>lb</span></td><td>135<span>lb</span></td><td>135<span>lb</span></td></tr>
+          <tr><th scope="row">Women</th><td>45<span>lb</span></td><td>45<span>lb</span></td><td>45<span>lb</span></td></tr>
+        </tbody>
+      </table>
+      <div class="feature">
+        <h4>No maxes needed to start</h4>
+        <p>Don't know your numbers? Just train. Every set you log records your best, and the tier follows by itself.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="rung" id="rung-2" data-rung-section="2" style="--c:#4A90E2;--ct:#4A90E2" aria-labelledby="t2">
+    <div class="numeral" aria-hidden="true">II</div>
+    <div class="copy">
+      <h3 id="t2">II · Resilience</h3>
+      <p class="meaning">You came back after it went wrong.</p>
+      <table class="thresholds">
+        <thead><tr><th scope="col"></th><th scope="col">Bench</th><th scope="col">Squat</th><th scope="col">Deadlift</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Men</th><td>185<span>lb</span></td><td>200<span>lb</span></td><td>200<span>lb</span></td></tr>
+          <tr><th scope="row">Women</th><td>65<span>lb</span></td><td>65<span>lb</span></td><td>65<span>lb</span></td></tr>
+        </tbody>
+      </table>
+      <div class="feature">
+        <h4>A set logged in a few taps</h4>
+        <p>Built for between sets: one hand, chalk on it, twenty seconds. Weights you actually use are one tap away, and it keeps logging with no signal.</p>
+      </div>
+    </div>
+    <figure class="phone crop">
+      <img src="assets/log-squat.webp" width="720" height="673" loading="lazy" alt="Tier's logging screen: squat at 225 pounds for 5 reps, with quick-pick weights and rep buttons.">
+    </figure>
+  </section>
+
+  <section class="rung" id="rung-3" data-rung-section="3" style="--c:#0FA958;--ct:#0FA958" aria-labelledby="t3">
+    <div class="numeral" aria-hidden="true">III</div>
+    <div class="copy">
+      <h3 id="t3">III · Hunger</h3>
+      <p class="meaning">You want it enough to keep coming back.</p>
+      <table class="thresholds">
+        <thead><tr><th scope="col"></th><th scope="col">Bench</th><th scope="col">Squat</th><th scope="col">Deadlift</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Men</th><td>200<span>lb</span></td><td>225<span>lb</span></td><td>225<span>lb</span></td></tr>
+          <tr><th scope="row">Women</th><td>75<span>lb</span></td><td>95<span>lb</span></td><td>95<span>lb</span></td></tr>
+        </tbody>
+      </table>
+      <div class="feature">
+        <h4>It remembers last week for you</h4>
+        <p>Open a lift and Tier tells you what you did last time and how to beat it: one more rep, or a little more weight.</p>
+      </div>
+    </div>
+    <figure class="shot">
+      <img src="assets/overload.webp" width="720" height="452" loading="lazy" alt="Tier's progression suggestion under a squat: last Friday you did 215 by 5, 5, 5; add a rep for 215 by 6 or add weight for 220 by 5.">
+    </figure>
+  </section>
+
+  <section class="rung" id="rung-4" data-rung-section="4" style="--c:#F056BF;--ct:#F056BF" aria-labelledby="t4">
+    <div class="numeral" aria-hidden="true">IV</div>
+    <div class="copy">
+      <h3 id="t4">IV · Focus</h3>
+      <p class="meaning">One thing at a time, done properly.</p>
+      <table class="thresholds">
+        <thead><tr><th scope="col"></th><th scope="col">Bench</th><th scope="col">Squat</th><th scope="col">Deadlift</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Men</th><td>215<span>lb</span></td><td>275<span>lb</span></td><td>275<span>lb</span></td></tr>
+          <tr><th scope="row">Women</th><td>95<span>lb</span></td><td>135<span>lb</span></td><td>135<span>lb</span></td></tr>
+        </tbody>
+      </table>
+      <div class="feature">
+        <h4>Standings at your gym and in your city</h4>
+        <p>Switch the board between your friends, your gym and your city to see where you land. Men and women are ranked on their own ladders.</p>
+      </div>
+    </div>
+    <figure class="phone crop">
+      <img src="assets/standings.webp" width="720" height="1755" loading="lazy" alt="Tier's Standings screen: nine tier bands from IX to I, each with a lifter's bench, squat and deadlift.">
+      <figcaption>Illustrative accounts</figcaption>
+    </figure>
+  </section>
+
+  <section class="rung" id="rung-5" data-rung-section="5" style="--c:#D45D28;--ct:#D45D28" aria-labelledby="t5">
+    <div class="numeral" aria-hidden="true">V</div>
+    <div class="copy">
+      <h3 id="t5">V · Devotion</h3>
+      <p class="meaning">You have given yourself over to it.</p>
+      <table class="thresholds">
+        <thead><tr><th scope="col"></th><th scope="col">Bench</th><th scope="col">Squat</th><th scope="col">Deadlift</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Men</th><td>225<span>lb</span></td><td>315<span>lb</span></td><td>315<span>lb</span></td></tr>
+          <tr><th scope="row">Women</th><td>105<span>lb</span></td><td>155<span>lb</span></td><td>155<span>lb</span></td></tr>
+        </tbody>
+      </table>
+      <div class="feature">
+        <h4>Friends see one honest number</h4>
+        <p>Not a feed. Each friend's best set from their session, a reaction if it earned one, and a summon for anyone who's gone quiet.</p>
+      </div>
+    </div>
+    <figure class="phone">
+      <img src="assets/friends.webp" width="720" height="573" loading="lazy" alt="Tier's Friends tab: two friends' best sets, a 275 pound bench for 3 marked PR and a 315 pound deadlift for 3.">
+      <figcaption>Illustrative accounts</figcaption>
+    </figure>
+  </section>
+
+  <section class="rung" id="rung-6" data-rung-section="6" style="--c:#C62828;--ct:#E0553C" aria-labelledby="t6">
+    <div class="numeral" aria-hidden="true">VI</div>
+    <div class="copy">
+      <h3 id="t6">VI · Sacrifice</h3>
+      <p class="meaning">You give things up to keep going.</p>
+      <table class="thresholds">
+        <thead><tr><th scope="col"></th><th scope="col">Bench</th><th scope="col">Squat</th><th scope="col">Deadlift</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Men</th><td>275<span>lb</span></td><td>365<span>lb</span></td><td>365<span>lb</span></td></tr>
+          <tr><th scope="row">Women</th><td>135<span>lb</span></td><td>185<span>lb</span></td><td>185<span>lb</span></td></tr>
+        </tbody>
+      </table>
+      <div class="feature">
+        <h4>Exactly what's left</h4>
+        <p>Your tier screen shows where you stand and how far the next rung is, lift by lift. Not a score. A number of pounds.</p>
+      </div>
+    </div>
+    <figure class="phone crop">
+      <img src="assets/climb.webp" width="720" height="1340" loading="lazy" alt="Tier's tier screen: Tier VI, Sacrifice, second of twelve, climbing to Tier VII with 35 pounds to go, with bench, squat and deadlift rings.">
+      <figcaption>Illustrative accounts</figcaption>
+    </figure>
+  </section>
+
+  <section class="rung" id="rung-7" data-rung-section="7" style="--c:#6A1B9A;--ct:#A05CD0" aria-labelledby="t7">
+    <div class="numeral" aria-hidden="true">VII</div>
+    <div class="copy">
+      <h3 id="t7">VII · Conviction</h3>
+      <p class="meaning">You believe the lift before you make it.</p>
+      <table class="thresholds">
+        <thead><tr><th scope="col"></th><th scope="col">Bench</th><th scope="col">Squat</th><th scope="col">Deadlift</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Men</th><td>315<span>lb</span></td><td>405<span>lb</span></td><td>405<span>lb</span></td></tr>
+          <tr><th scope="row">Women</th><td>155<span>lb</span></td><td>225<span>lb</span></td><td>225<span>lb</span></td></tr>
+        </tbody>
+      </table>
+      <div class="feature">
+        <h4>A coach that has read your training log</h4>
+        <p>Ask for today's workout, a full program, or a read on your week, and the answer is built from the sets you've actually logged.</p>
+        <p><span class="max">TIER MAX</span> lifts the limits on the AI coach.</p>
+      </div>
+    </div>
+    <figure class="phone crop">
+      <img src="assets/ai-workout.webp" width="720" height="1426" loading="lazy" alt="Tier's AI workout: an upper body push and pull session with incline bench, barbell row and dumbbell shoulder press.">
+    </figure>
+  </section>
+
+  <section class="rung" id="rung-8" data-rung-section="8" style="--c:#FFC107;--ct:#FFC107" aria-labelledby="t8">
+    <div class="numeral" aria-hidden="true">VIII</div>
+    <div class="copy">
+      <h3 id="t8">VIII · Grace</h3>
+      <p class="meaning">The effort stopped looking like effort.</p>
+      <table class="thresholds">
+        <thead><tr><th scope="col"></th><th scope="col">Bench</th><th scope="col">Squat</th><th scope="col">Deadlift</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Men</th><td>365<span>lb</span></td><td>455<span>lb</span></td><td>455<span>lb</span></td></tr>
+          <tr><th scope="row">Women</th><td>185<span>lb</span></td><td>245<span>lb</span></td><td>245<span>lb</span></td></tr>
+        </tbody>
+      </table>
+      <div class="feature">
+        <h4>Everything it leaves out</h4>
+        <p>The rank does the talking. Tier is about what you can lift.</p>
+      </div>
+    </div>
+    <div class="quiet">
+      <ul>
+        <li>Follower counts <span>None</span></li>
+        <li>Infinite feed <span>None</span></li>
+        <li>Calorie counting <span>None</span></li>
+        <li>Ads <span>None</span></li>
+        <li>Ways to buy a tier <span>None</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="rung top" id="rung-9" data-rung-section="9" style="--c:#FFFFFF;--ct:#FFFFFF" aria-labelledby="t9">
+    <div class="numeral" aria-hidden="true">IX</div>
+    <div class="copy">
+      <h3 id="t9">IX · Ascended</h3>
+      <p class="meaning">Nothing left to prove.</p>
+      <table class="thresholds">
+        <thead><tr><th scope="col"></th><th scope="col">Bench</th><th scope="col">Squat</th><th scope="col">Deadlift</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Men</th><td>405<span>lb</span></td><td>495<span>lb</span></td><td>495<span>lb</span></td></tr>
+          <tr><th scope="row">Women</th><td>225<span>lb</span></td><td>275<span>lb</span></td><td>275<span>lb</span></td></tr>
+        </tbody>
+      </table>
+      <div class="cta">
+        <a class="store accent" href="https://apps.apple.com/app/apple-store/id6743146228?pt=127595726&amp;ct=website&amp;mt=8">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.37 12.73c-.02-2.3 1.88-3.4 1.97-3.46-1.07-1.57-2.74-1.78-3.33-1.8-1.42-.14-2.77.84-3.49.84-.72 0-1.83-.82-3.01-.8-1.55.02-2.98.9-3.78 2.29-1.61 2.8-.41 6.94 1.16 9.21.77 1.11 1.68 2.36 2.88 2.31 1.16-.05 1.59-.75 2.99-.75 1.39 0 1.79.75 3.01.72 1.24-.02 2.03-1.13 2.79-2.25.88-1.29 1.24-2.54 1.26-2.6-.03-.01-2.42-.93-2.45-3.71ZM14.1 5.95c.64-.77 1.07-1.85.95-2.92-.92.04-2.03.61-2.69 1.38-.59.68-1.1 1.77-.97 2.82 1.03.08 2.07-.52 2.71-1.28Z"/></svg>
+          Get Tier on iPhone
+        </a>
+        <small>Free on iPhone. Start wherever you are; the ladder begins at the bar.</small>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <nav aria-label="Footer">
+    <a href="support.html">Support</a>
     <a href="privacy.html">Privacy Policy</a>
     <a href="terms.html">Terms of Service</a>
-    <span>&copy; Tier Innovations, Inc.</span>
-  </footer>
-</main>
+    <a href="mailto:tierinnovationsinc@gmail.com">Contact</a>
+  </nav>
+  <small>&copy; 2026 Tier Innovations, Inc. San Francisco.</small>
+</footer>
+<script src="site.js"></script>
 </body>
 </html>
