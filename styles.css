@@ -11,7 +11,7 @@
   --hue-text: #b0b0b0;
   --display: "Jost", "Futura", "Century Gothic", sans-serif;
   --label: "Barlow Semi Condensed", "Arial Narrow", sans-serif;
-  --pad: clamp(20px, 5vw, 72px);
+  --pad: max(clamp(20px, 5vw, 72px), calc((100vw - 1360px) / 2));
   color-scheme: dark;
 }
 @property --hue { syntax: "<color>"; inherits: true; initial-value: #3a3f46; }
@@ -95,11 +95,12 @@ body[data-rung="0"] .aurora { background: var(--ground); }
 .store.accent:hover { background: #ff6a4f; }
 
 /* After the hero, the download stays one tap away without covering the light. */
+.float[hidden] { display: none; }
 .float { position: fixed; left: var(--pad); bottom: 20px; z-index: 18; box-shadow: 0 10px 30px -10px rgba(0,0,0,.8); }
 
 /* Ladder rail: always says where you are. */
 .rail {
-  position: fixed; right: max(10px, calc(var(--pad) / 3)); top: 50%; transform: translateY(-50%);
+  position: fixed; right: clamp(10px, 1.6vw, 28px); top: 50%; transform: translateY(-50%);
   z-index: 15; display: flex; flex-direction: column-reverse; gap: 6px; list-style: none; margin: 0; padding: 0;
 }
 .rail a {
@@ -310,7 +311,7 @@ body[data-rung="0"] .aurora { background: var(--ground); }
 .iphone-screen { container-type: inline-size; }
 .ios-bar span { width: 18%; text-align: center; letter-spacing: -0.01em; }
 .ios-bar .island { position: absolute; left: 50%; top: 3cqw; transform: translateX(-50%); width: 31%; height: 9.2cqw; border-radius: 99px; background: #000; box-shadow: 0 0 0 1px #111; }
-.ios-icons { width: 18%; height: auto; }
+.ios-icons { width: 17cqw; height: 3cqw; flex: none; }
 .iphone-scroll { position: absolute; inset: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
 .iphone-scroll::-webkit-scrollbar { display: none; }
 .iphone-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
