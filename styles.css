@@ -11,7 +11,8 @@
   --hue-text: #b0b0b0;
   --display: "Jost", "Futura", "Century Gothic", sans-serif;
   --label: "Barlow Semi Condensed", "Arial Narrow", sans-serif;
-  --pad: max(clamp(20px, 5vw, 72px), calc((100vw - 1360px) / 2));
+  --gutter: clamp(20px, 5vw, 72px);
+  --pad: max(var(--gutter), calc((100vw - 1360px) / 2));
   color-scheme: dark;
 }
 @property --hue { syntax: "<color>"; inherits: true; initial-value: #3a3f46; }
@@ -177,7 +178,7 @@ body[data-rung="0"] .aurora { background: var(--ground); }
 .result .next { margin-top: 8px; color: var(--hue-text); }
 
 /* Rungs */
-.climb-intro { padding: clamp(80px, 14vh, 160px) var(--pad) clamp(40px, 6vh, 64px); max-width: 1400px; }
+.climb-intro { padding: clamp(80px, 14vh, 160px) var(--pad) clamp(40px, 6vh, 64px); }
 .climb-intro h2 { font: 300 clamp(36px, 5vw, 72px)/1 var(--display); letter-spacing: -0.03em; margin: 0 0 18px; max-width: 16ch; }
 .climb-intro p { color: var(--ink-2); max-width: 58ch; margin: 0; font-size: 19px; }
 
@@ -256,7 +257,7 @@ body[data-rung="0"] .aurora { background: var(--ground); }
 .foot small { color: var(--ink-3); font-size: 14px; }
 
 /* Documents: privacy, terms, support */
-.doc { max-width: 760px; margin: 0 auto; padding: clamp(40px, 8vh, 96px) var(--pad) 96px; }
+.doc { max-width: calc(760px + 2 * var(--gutter)); margin: 0 auto; padding: clamp(40px, 8vh, 96px) var(--gutter) 96px; }
 .doc h1 { font: 300 clamp(44px, 6vw, 76px)/1 var(--display); letter-spacing: -0.03em; margin: 0 0 12px; }
 .doc .meta { color: var(--ink-3); font-size: 15px; margin: 0 0 48px; }
 .doc h2 { font: 500 26px/1.25 var(--display); margin: 56px 0 12px; letter-spacing: -0.01em; }
@@ -320,7 +321,7 @@ body[data-rung="0"] .aurora { background: var(--ground); }
 
 /* Feature pages: Logging, Friends, AI Routines. Neutral light; tier hues stay with the tiers. */
 .fpage { --hue: #3a3f46; --hue-text: #b0b0b0; }
-.fhero { padding: clamp(56px, 12vh, 140px) var(--pad) clamp(48px, 8vh, 96px); max-width: 1180px; }
+.fhero { padding: clamp(56px, 12vh, 140px) var(--pad) clamp(48px, 8vh, 96px); }
 .fhero h1 { font: 300 clamp(46px, 7vw, 104px)/0.98 var(--display); letter-spacing: -0.035em; margin: 0 0 24px; max-width: 14ch; text-wrap: balance; }
 .fhero .lede, .fclose .note { font-size: clamp(18px, 1.6vw, 21px); color: var(--ink-2); max-width: 46ch; margin: 0 0 36px; }
 .frow {
