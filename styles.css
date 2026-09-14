@@ -213,6 +213,8 @@ body[data-rung="0"] .aurora { background: var(--ground); }
 .feature p { color: var(--ink-2); margin: 0; max-width: 46ch; }
 .feature p + p { margin-top: 10px; }
 .max { color: var(--accent); }
+a.max { text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+a.max:hover { text-decoration-color: var(--accent); }
 
 .phone {
   margin: 0; justify-self: center; width: min(360px, 100%);
@@ -283,7 +285,7 @@ body[data-rung="0"] .aurora { background: var(--ground); }
 .contact h2 { margin-top: 0; }
 
 /* Tabs wrap to their own scrolling row on narrow screens. */
-@media (max-width: 900px) {
+@media (max-width: 1180px) {
   .bar { flex-wrap: wrap; row-gap: 4px; }
   .tabs { order: 3; width: calc(100% + 2 * var(--pad)); margin: 0 calc(-1 * var(--pad)); padding: 0 var(--pad); overflow-x: auto; scrollbar-width: none; gap: 24px; border-bottom: 1px solid var(--rule); }
   .tabs::-webkit-scrollbar { display: none; }
@@ -344,6 +346,19 @@ body[data-rung="0"] .aurora { background: var(--ground); }
   .frow.flip .fcopy { order: 0; }
   .frow.textonly .fcopy { grid-template-columns: 1fr; gap: 12px; }
 }
+
+/* TIER MAX comparison: rows for data, hairline rules, the MAX column carries the accent. */
+.compare { width: 100%; max-width: 620px; justify-self: center; overflow-x: auto; }
+.compare table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.compare th, .compare td { padding: 15px 0; border-bottom: 1px solid var(--rule); text-align: right; vertical-align: baseline; }
+.compare thead th { font: 600 12px/1 var(--label); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); padding-top: 0; }
+.compare thead th.max { color: var(--accent); }
+.compare tbody th { text-align: left; font: 400 17px/1.35 var(--display); color: var(--ink); padding-right: 16px; }
+.compare td { font-size: 16px; color: var(--ink-2); width: 24%; white-space: nowrap; padding-left: 12px; }
+.compare td.up { color: var(--ink); font-weight: 500; }
+.compare tbody tr:nth-child(4) th, .compare tbody tr:nth-child(4) td { border-bottom-color: var(--rule-2); padding-bottom: 20px; }
+.compare tbody tr:nth-child(5) th, .compare tbody tr:nth-child(5) td { padding-top: 20px; }
+@media (max-width: 560px) { .compare tbody th { font-size: 15px; } .compare td { font-size: 14px; width: auto; } }
 
 /* Responsive */
 @media (max-width: 960px) {
