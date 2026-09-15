@@ -41,8 +41,8 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1p
 .aurora {
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background:
-    radial-gradient(120% 70% at 50% -8%, color-mix(in srgb, var(--hue) 62%, transparent) 0%, transparent 62%),
-    radial-gradient(90% 50% at 50% 118%, color-mix(in srgb, var(--hue) 22%, transparent) 0%, transparent 70%),
+    radial-gradient(150% 85% at 50% -12%, color-mix(in srgb, var(--hue) 88%, transparent) 0%, color-mix(in srgb, var(--hue) 30%, transparent) 38%, transparent 68%),
+    radial-gradient(110% 60% at 50% 120%, color-mix(in srgb, var(--hue) 40%, transparent) 0%, transparent 72%),
     var(--ground);
 }
 body[data-rung="0"] .aurora { background: var(--ground); }
@@ -198,7 +198,7 @@ body[data-rung="0"] .aurora { background: var(--ground); }
 }
 .rung .copy, .rung figure, .rung .overload, .rung .quiet { position: relative; z-index: 1; }
 .rung .tierline { color: var(--ct); }
-.rung h3 { font: 300 clamp(52px, 7vw, 112px)/0.95 var(--display); letter-spacing: -0.035em; margin: 10px 0 14px; }
+.rung h3 { font: 300 clamp(48px, 5.4vw, 92px)/0.95 var(--display); letter-spacing: -0.035em; margin: 10px 0 14px; }
 .rung .meaning { font-size: clamp(19px, 1.7vw, 23px); color: var(--ink); margin: 0 0 32px; max-width: 30ch; }
 
 .thresholds { width: 100%; max-width: 440px; border-collapse: collapse; font-variant-numeric: tabular-nums; margin-bottom: 36px; }
@@ -292,6 +292,29 @@ a.max:hover { text-decoration-color: var(--accent); }
   .bar > .store { margin-left: auto; }
 }
 
+/* Two phones per rung: the feature up front, a related screen behind it. */
+.rung::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(55% 60% at 74% 52%, color-mix(in srgb, var(--c) 30%, transparent), transparent 72%); }
+.phones { position: relative; z-index: 1; justify-self: center; width: min(600px, 100%); display: grid; grid-template-columns: 1fr; place-items: center; padding: 24px 0 36px; }
+.phones .iphone { grid-area: 1 / 1; width: min(300px, 54%); }
+.phones .iphone.back { transform: translate(-50%, 7%) scale(.88); filter: brightness(.78); z-index: 0; }
+.phones .iphone.front { transform: translateX(28%); z-index: 1; }
+.phones-note { grid-area: 2 / 1; margin: 18px 0 0; font: 600 11px/1 var(--label); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); position: relative; z-index: 1; }
+.showcase { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); align-items: end; margin-top: clamp(56px, 8vh, 96px); max-width: 1060px; }
+.showcase .iphone { width: 100%; }
+.showcase .iphone.lift { transform: translateY(-40px); }
+.rung.top .phones-note { grid-area: auto; text-align: center; max-width: 1060px; margin-top: 8px; }
+@media (max-width: 960px) {
+  .phones .iphone { width: min(260px, 58%); }
+  .showcase { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .showcase .iphone.lift { transform: translateY(-20px); }
+}
+@media (max-width: 560px) {
+  .phones .iphone { width: 60%; }
+  .phones .iphone { width: 52%; }
+  .phones .iphone.back { transform: translate(-44%, 6%) scale(.88); }
+  .phones .iphone.front { transform: translateX(24%); }
+}
+
 /* iPhone bezel. Screens are shown whole: a tall capture scrolls inside the screen instead of being cropped. */
 .iphone { margin: 0; justify-self: center; width: min(340px, 100%); position: relative; z-index: 1; }
 .iphone-frame {
@@ -306,19 +329,19 @@ a.max:hover { text-decoration-color: var(--accent); }
 .iphone-frame::before { left: -3px; top: 18%; height: 11%; }
 .iphone-frame::after { right: -3px; top: 24%; height: 15%; }
 .iphone-screen { position: relative; height: 100%; border-radius: 13.4% / 6.2%; overflow: hidden; background: #000; }
-.ios-bar {
-  position: absolute; inset: 0 0 auto 0; z-index: 2; height: 13.7cqw;
-  display: flex; align-items: center; justify-content: space-between; padding: 0 9% 0 11%;
-  background: #000; color: #fff; font: 600 clamp(11px, 4.2cqw, 16px)/1 -apple-system, "SF Pro Text", "Jost", sans-serif;
-}
 .iphone-screen { container-type: inline-size; }
-.ios-bar span { width: 18%; text-align: center; letter-spacing: -0.01em; }
-.ios-bar .island { position: absolute; left: 50%; top: 3cqw; transform: translateX(-50%); width: 31%; height: 9.2cqw; border-radius: 99px; background: #000; box-shadow: 0 0 0 1px #111; }
-.ios-icons { width: 17cqw; height: 3cqw; flex: none; }
+.ios-bar {
+  position: absolute; inset: 0 0 auto 0; z-index: 2; height: 12.6cqw;
+  display: grid; grid-template-columns: 1fr 33% 1fr; align-items: center;
+  background: #000; color: #fff;
+}
+.ios-time { justify-self: center; transform: translateX(6%); font: 600 4.35cqw/1 -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.02em; }
+.ios-bar .island { grid-column: 2; justify-self: center; width: 100%; height: 8.6cqw; border-radius: 99px; background: #000; }
+.ios-icons { grid-column: 3; justify-self: center; transform: translateX(-4%); width: 16.5cqw; height: 3.2cqw; }
 .iphone-scroll { position: absolute; inset: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
 .iphone-scroll::-webkit-scrollbar { display: none; }
 .iphone-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.iphone-scroll img { width: 100%; height: auto; margin-top: calc(13.7cqw - var(--android) * 100cqw); }
+.iphone-scroll img { width: 100%; height: auto; margin-top: calc(12.6cqw - var(--android) * 100cqw); }
 .iphone figcaption { font: 600 11px/1 var(--label); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); text-align: center; padding: 16px 0 0; }
 
 /* Feature pages: Logging, Friends, AI Routines. Neutral light; tier hues stay with the tiers. */
